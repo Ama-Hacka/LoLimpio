@@ -680,7 +680,7 @@
                             <input type="number" id="calculation-input" min="1" value="1">
                         </div>
                         <div class="price_display" id="calculated-price">€15.00</div>
-                        <button class="book_button" id="book-now">Reserva Ahora</button>
+                        <a href="GoogleBooking.html"><button class="book_button" id="book-now">Reserva Ahora</button></a>
                     </div>
                 </div>
             </div>
@@ -791,7 +791,7 @@
         </div>
     </div>
     
-  <script>
+  <!-- <script>
   document.addEventListener("DOMContentLoaded", function () {
     const bookButton = document.getElementById("book-now");
 
@@ -803,7 +803,7 @@
         "width=900,height=700,top=100,left=100"
       );
     });
-  });
+  }); -->
 </script>
 
    <script>
@@ -871,15 +871,22 @@
             if (calculationMode === 'rooms') {
                 // Base price + price per room
                 price = 1500;
-                if (value > 1) price = 1500 + (value * 200);
-            } else {
+                if (value > 1 && value < 4){
+                    price = 1500 + (value * 200);
+                } 
+                else if(value >= 4){
+                    price = 2000 + (value * 200);
+                } 
+            }
+            
+            else {
                 // Price per square meter
                 price = value * 10;
                 // Minimum price
                 if (price < 1500) price = 1500;
             }
             
-            calculatedPrice.textContent = `$${price.toFixed(2)}`;
+            calculatedPrice.textContent = `Estimado: $${price.toFixed(2)}`;
             
             // Update the estimated price in the form
             document.getElementById('estimated-price').value = `$${price.toFixed(2)}`;
