@@ -1,0 +1,38 @@
+/* Debug CSS for Grid Visualization */
+.estimado {
+    /* Add a visible grid gap */
+    gap: 8px !important;
+}
+
+.estimado > * {
+    /* Add borders to grid items */
+    outline: 2px dashed rgba(255, 0, 0, 0.3) !important;
+    background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Show grid areas */
+.hero_call {
+    position: relative;
+}
+.hero_call::before {
+    content: 'call';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 0, 0, 0.2);
+    padding: 2px 5px;
+    font-size: 12px;
+}
+
+.hero_social {
+    position: relative;
+}
+.hero_social::before {
+    content: 'social';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 255, 0.2);
+    padding: 2px 5px;
+    font-size: 12px;
+}

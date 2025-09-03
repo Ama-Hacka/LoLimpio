@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoLimpio - Servicios de Limpieza</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        /* Header styles */
+        header {
+            background-color: rgba(241, 241, 241, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 70px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            color: white;
+            background-color: rgba(251, 16, 118, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 100%;
+            background-color: rgba(251, 16, 118, 0.8);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav ul li {
+            color: rgba(251, 16, 118, 0.8);
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        nav ul li:hover {
+            color: rgba(251, 16, 118, 1);
+        }
+
+        /* Hero section */
+        .hero {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 2rem 5%;
+        }
+
+        .estimado {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero_call {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: left;
+            max-width: 100%;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero_text h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .hero_text h2 {
+            font-size: 1.6rem;
+            color: rgba(251, 16, 118, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        .hero_text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        button {
+            background-color: rgba(251, 16, 118, 0.9);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0.8rem 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: rgba(251, 16, 118, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero_social {
+            position: absolute;
+            right: 5%;
+            bottom: 10%;
+        }
+
+        .hero_social ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            background-color: rgba(11, 11, 11, 0.3);
+            border-radius: 5px;
+            padding: 0.8rem;
+        }
+
+        .hero_social i {
+            font-size: 1.5rem;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        .hero_social i:hover {
+            color: rgb(253, 35, 130);
+        }
+
+        /* Calculator styles */
+        .calculator {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .calculator h2 {
+            color: rgba(251, 16, 118, 0.9);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        .calculator-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .calculator-options button {
+            background-color: #f1f1f1;
+            color: #555;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .calculator-options button.active {
+            background-color: rgba(251, 16, 118, 0.9);
+            color: white;
+        }
+
+        .calculator-input {
+            margin-bottom: 1.5rem;
+        }
+
+        .calculator-input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .calculator-input input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .calculator-result {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border: 1px dashed #ddd;
+        }
+
+        .calculator-result h3 {
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .calculator-result p {
+            font-size: 1.8rem;
+            color: rgba(251, 16, 118, 0.9);
+            font-weight: bold;
+        }
+
+        .calculator-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .calculator-buttons button {
+            width: 100%;
+            text-align: center;
+        }
+
+        .book-button {
+            background-color: #28a745;
+        }
+
+        .book-button:hover {
+            background-color: #218838;
+        }
+
+        /* Services section */
+        .servicios {
+            padding: 4rem 5%;
+            text-align: center;
+            background-color: white;
+        }
+
+        .servicios h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .servicios > p {
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #555;
+        }
+
+        .listado {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .servicio {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 350px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .servicio:hover {
+            transform: translateY(-5px);
+        }
+
+        .servicio figure {
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .servicio img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .servicio h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .servicio p {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            color: #555;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f1f1f1;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        footer ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        footer ul li {
+            font-weight: bold;
+            color: rgba(251, 16, 118, 0.8);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        footer ul li:hover {
+            color: rgba(251, 16, 118, 1);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 992px) {
+            .estimado {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .calculator {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Header adjustments */
+            header {
+                flex-wrap: wrap;
+                padding: 0.5rem 5%;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            nav {
+                width: 100%;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                background-color: rgba(241, 241, 241, 0.95);
+                width: 100%;
+                padding: 1rem 0;
+                margin-top: 0.5rem;
+            }
+            
+            nav ul li {
+                padding: 0.8rem 5%;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            /* Hero section adjustments */
+            .hero {
+                padding: 1rem 5%;
+            }
+            
+            .hero_call {
+                padding: 1.5rem;
+            }
+            
+            .hero_text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero_text h2 {
+                font-size: 1.3rem;
+            }
+            
+            .hero_social {
+                position: relative;
+                right: auto;
+                bottom: auto;
+                margin-top: 2rem;
+                align-self: center;
+            }
+            
+            .hero_social ul {
+                justify-content: center;
+            }
+            
+            /* Services adjustments */
+            .servicio {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Further adjustments for very small screens */
+            header h1 {
+                font-size: 1.2rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .hero_text h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero_text h2 {
+                font-size: 1.1rem;
+            }
+            
+            .hero_text p {
+                font-size: 0.9rem;
+            }
+            
+            button {
+                font-size: 1rem;
+                padding: 0.7rem 1.2rem;
+            }
+            
+            .calculator h2 {
+                font-size: 1.5rem;
+            }
+            
+            .servicios h2 {
+                font-size: 1.7rem;
+            }
+            
+            .servicio h3 {
+                font-size: 1.1rem;
+            }
+            
+            .servicio p {
+                font-size: 0.9rem;
+            }
+            
+            footer ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LoLimpio</h1>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav id="main-nav">
+            <ul>
+                <li>Servicios</li>
+                <li>Nosotros</li>
+                <li>Cotiza</li>
+                <li>Contacto</li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero">
+        <article class="estimado">
+            <div class="hero_call">
+                <div class="hero_text">
+                    <h1>Satisfacción Garantizada</h1>
+                    <h2>Te Ahorramos Tiempo Y Dinero</h2>
+                    <p>Si quieres tener tu hogar limpio y fresco sin tener que invertir tu tan preciado tiempo, Yo te LoLimpio!</p>
+                </div>
+                <button>Cotiza Gratis!</button> 
+            </div>
+            
+            <div class="calculator">
+                <h2>Calcula Tu Precio</h2>
+                <div class="calculator-options">
+                    <button id="room-option" class="active">Por Habitaciones</button>
+                    <button id="size-option">Por Metros Cuadrados</button>
+                </div>
+                <div class="calculator-input">
+                    <label for="calculation-input" id="input-label">Número de habitaciones</label>
+                    <input type="number" id="calculation-input" min="1" value="2">
+                </div>
+                <div class="calculator-result">
+                    <h3>Precio estimado:</h3>
+                    <p id="calculated-price">€50.00</p>
+                </div>
+                <div class="calculator-buttons">
+                    <button id="calculate-button">Calcular</button>
+                    <button class="book-button" id="book-button">Reservar Ahora</button>
+                </div>
+            </div>
+            
+            <div class="hero_social">
+                <ul>
+                    <li><i class="fa-brands fa-tiktok"></i></li>
+                    <li><i class="fa-brands fa-instagram"></i></li>
+                    <li><i class="fa-brands fa-whatsapp"></i></li>
+                </ul>
+            </div> 
+        </article>
+    </section>
+    
+    <section class="servicios">
+        <h2>Lo que Limpio</h2>
+        <p>Básicamente limpiamos lo que sea pero para que tengas una idea:</p>
+        <article class="listado">
+            <div class="servicio" id="profunda">
+                <figure><img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="cleaning bathroom"></figure>
+                <figcaption>
+                    <h3>Limpieza Profunda</h3>
+                    <p>Limpiamos de arriba a abajo y de derecha a izquierda</p>
+                    <button>Cotiza Gratis!</button>
+                </figcaption>
+            </div>
+            <div class="servicio" id="recurrente">
+                <figure><img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="cleaning kitchen"></figure>
+                <figcaption>
+                    <h3>Limpieza Recurrente</h3>
+                    <p>Limpiamos a tu conveniencia sea: diario / semanal o mensual</p>
+                    <button>Cotiza Gratis!</button> 
+                </figcaption>
+            </div>
+            <div class="servicio" id="rapidito">
+                <figure><img src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="organizing living room"></figure>
+                <figcaption>
+                    <h3>Limpieza rápida</h3>
+                    <p>Viene una visita, o vuelve tu esposa y te cogió la hora?</p>
+                    <button>Cotiza Gratis!</button> 
+                </figcaption>
+            </div>
+        </article>
+    </section>
+    
+    <section class="nosotros">
+        <h2></h2>
+        <article>
+            <figure> </figure>
+            <figcaption>  </figcaption>
+            <p></p>
+        </article>
+    </section>
+    
+    <footer>
+        <ul>
+            <li>Servicios</li>
+            <li>Cotiza</li>
+            <li>Contacto</li>
+        </ul>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        const navItems = document.querySelectorAll('#main-nav li');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                document.getElementById('main-nav').classList.remove('active');
+            });
+        });
+
+        // Calculator functionality
+        const roomOption = document.getElementById('room-option');
+        const sizeOption = document.getElementById('size-option');
+        const inputLabel = document.getElementById('input-label');
+        const calculationInput = document.getElementById('calculation-input');
+        const calculatedPrice = document.getElementById('calculated-price');
+        const calculateButton = document.getElementById('calculate-button');
+        const bookButton = document.getElementById('book-button');
+        
+        let calculationMode = 'rooms';
+        
+        // Switch between room and size calculation
+        roomOption.addEventListener('click', function() {
+            calculationMode = 'rooms';
+            roomOption.classList.add('active');
+            sizeOption.classList.remove('active');
+            inputLabel.textContent = 'Número de habitaciones';
+            calculationInput.min = 1;
+            calculationInput.value = 2;
+            calculatePrice();
+        });
+        
+        sizeOption.addEventListener('click', function() {
+            calculationMode = 'size';
+            sizeOption.classList.add('active');
+            roomOption.classList.remove('active');
+            inputLabel.textContent = 'Metros cuadrados';
+            calculationInput.min = 20;
+            calculationInput.value = 80;
+            calculatePrice();
+        });
+        
+        // Calculate price based on input
+        function calculatePrice() {
+            const value = parseInt(calculationInput.value);
+            let price = 0;
+            
+            if (calculationMode === 'rooms') {
+                // Base price + price per room
+                price = 1500;
+                if (value >1 ) price = 1500 + (value * 200);
+            } else {
+                // Price per square meter
+                price = value * 10;
+                // Minimum price
+                if (price < 1500) price = 1500;
+            }
+            
+            calculatedPrice.textContent = `€${price.toFixed(2)}`;
+        }
+        
+        // Calculate when button is clicked
+        calculateButton.addEventListener('click', calculatePrice);
+        
+        // Calculate when input changes
+        calculationInput.addEventListener('change', calculatePrice);
+        
+        // Initial calculation
+        calculatePrice();
+        
+        // Book now button functionality
+        bookButton.addEventListener('click', function() {
+            // In a real implementation, this would connect to Google Calendar API
+            alert('¡Gracias por tu reserva! Te redirigiremos a nuestro calendario para que elijas la fecha y hora.');
+            // window.location.href = 'https://calendar.google.com/'; // Actual link to your calendar
+        });
+    </script>
+</body>
+</html>

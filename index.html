@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoLimpio - Servicios de Limpieza</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .whatsapp_link{
+        position: fixed;
+        bottom: 30px;
+        right: 50px;
+        display: flex;                  /* centers icon inside */
+        justify-content: center;
+        align-items: center;
+        height: 5rem;
+        width: 5rem;
+        border-radius: 50%;
+        background-color: rgba(59, 59, 59, 0.671);        /* or transparent */
+        color: rgb(36, 216, 36);
+        font-size: 4rem;              /* icon size */
+        box-shadow: 2px 2px 5px 2px rgba(73, 73, 73, 0.7);
+        transition: all 0.5s;
+    }
+
+        .whatsapp_link:hover {
+            color: rgba(251, 16, 118, 0.8);
+            background-color: rgba(255, 255, 255, 0.729);
+            transform: scale(1.2);
+        }
+
+        
+        a{
+            text-decoration: none;
+            color: inherit;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header styles */
+        header {
+            background-color: rgba(241, 241, 241, 0.9);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 70px;
+        }
+
+        header h1 {
+            color: white;
+            background-color: rgba(251, 16, 118, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 1.5rem;
+        }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 3px;
+            width: 100%;
+            background-color: rgba(251, 16, 118, 0.8);
+            border-radius: 3px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav ul li {
+            color: rgba(251, 16, 118, 0.8);
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        nav ul li:hover {
+            color: rgba(251, 16, 118, 1);
+        }
+
+        /* Hero section */
+        .hero {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            background-image: url(./resources/images/cleaning_team.webp);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .estimado {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 5%;
+        }
+
+        .hero_container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 2rem;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .hero_content {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .hero_call {
+            flex: 1;
+            text-align: left;
+        }
+
+        .hero_text h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .hero_text h2 {
+            font-size: 1.5rem;
+            color: rgba(251, 16, 118, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        .hero_text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        button {
+            background-color: rgba(251, 16, 118, 0.8);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.8rem 1.5rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: rgba(251, 16, 118, 1);
+        }
+
+        /* Calculation Box Styles */
+        .calculation_box {
+            flex: 1;
+            text-align: left;
+        }
+
+        .calculation_box h3 {
+            font-size: 1.5rem;
+            color: rgba(251, 16, 118, 0.8);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .calculation_options {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .calculation_option {
+            padding: 0.5rem 1rem;
+            border: 2px solid rgba(251, 16, 118, 0.5);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calculation_option.active {
+            background-color: rgba(251, 16, 118, 0.8);
+            color: white;
+        }
+
+        .calculation_input {
+            margin-bottom: 1.5rem;
+        }
+
+        .calculation_input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .calculation_input input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .price_display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            min-height: 2.5rem;
+            color: rgba(251, 16, 118, 0.8);
+            text-align: center;
+        }
+
+        .book_button {
+            transition: all 0.5s;
+            width: 100%;
+        }
+
+        .book_button.pulse {
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 20px rgba(251, 16, 118, 0.8);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(251, 16, 118, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 15px rgba(251, 16, 118, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(251, 16, 118, 0);
+            }
+        }
+
+        .hero_social {
+            position: absolute;
+            right: 5%;
+            top: 20px;
+        }
+
+        .hero_social ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            background-color: white;
+            border-radius: 5px;
+            padding: 0.8rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero_social i {
+            font-size: 1.5rem;
+            color: #aaa;
+            transition: all 0.3s;
+        }
+
+        .hero_social i:hover {
+            color: rgb(253, 35, 130);
+            transform: scale(1.3);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Services section */
+        .servicios {
+            padding: 4rem 5%;
+            text-align: center;
+        }
+
+        .servicios h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .servicios > p {
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .listado {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .servicio {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px 3px rgba(73, 73, 73, 0.3);
+            max-width: 350px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .servicio figure {
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .servicio img {
+            width: 100%;
+            height: auto;
+            border-radius: 5%;
+            box-shadow: 2px 2px 5px 2px rgba(73, 73, 73, 0.3);
+        }
+
+        .servicio h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .servicio p {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f1f1f1;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        footer ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        footer ul li {
+            font-weight: bold;
+            color: rgba(251, 16, 118, 0.8);
+            cursor: pointer;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .reservation-modal {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .reservation-modal h3 {
+            text-align: center;
+            color: rgba(251, 16, 118, 0.8);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            border-color: rgba(251, 16, 118, 0.5);
+            outline: none;
+        }
+
+        .submit-btn {
+            background-color: rgba(251, 16, 118, 0.8);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.8rem 1.5rem;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: rgba(251, 16, 118, 1);
+        }
+
+        /* Confirmation message */
+        .confirmation-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .confirmation-message i {
+            font-size: 3rem;
+            color: rgba(251, 16, 118, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        .confirmation-message h3 {
+            margin-bottom: 1rem;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            /* Header adjustments */
+            header {
+                flex-wrap: wrap;
+                padding: 0.5rem 5%;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+          
+            nav {
+                width: 100%;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                background-color: rgba(241, 241, 241, 0.95);
+                width: 100%;
+                padding: 1rem 0;
+                margin-top: 0.5rem;
+            }
+            
+            nav ul li {
+                padding: 0.8rem 5%;
+                border-bottom: 1px solid #ddd;
+            }
+            
+            /* Hero section adjustments */
+            .hero_content {
+                flex-direction: column;
+            }
+            
+            .hero_call, .calculation_box {
+                text-align: center;
+                align-self: center;
+                min-width: fit-content;
+            }
+            
+            .hero_text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero_text h2 {
+                font-size: 1.3rem;
+            }
+            
+            .calculation_box h3 {
+                font-size: 1.3rem;
+            }
+            
+            .hero_social {
+                position: relative;
+                right: auto;
+                top: auto;
+                margin-top: 2rem;
+            }
+            
+            .hero_social ul {
+                justify-content: center;
+            }
+            
+            /* Services adjustments */
+            .servicio {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Further adjustments for very small screens */
+            header h1 {
+                font-size: 1.2rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .hero_text h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero_text h2 {
+                font-size: 1.1rem;
+            }
+            
+            .hero_text p {
+                font-size: 0.9rem;
+            }
+            
+            button {
+                font-size: 1rem;
+                padding: 0.7rem 1.2rem;
+            }
+            .hero_content{
+
+                align-items: center;
+            }
+            .calculation_box{
+                
+                display: flex;
+                flex-direction: column;
+                align-content: center;
+                min-width: fit-content;
+            }
+            .calculation_options {
+    
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .servicios h2 {
+                font-size: 1.7rem;
+            }
+            
+            .servicio h3 {
+                font-size: 1.1rem;
+            }
+            
+            .servicio p {
+                font-size: 0.9rem;
+            }
+            
+            footer ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LoLimpio</h1>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="#servicios">Servicios</a></li>
+                <!-- <li>Nosotros</li> -->
+                <li><a href="#cotiza">Cotiza</a></li>
+                <li>Contacto</li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="hero" id="cotiza">
+        <article class="estimado">
+            <div class="hero_container">
+                <div class="hero_content">
+                    <div class="hero_call">
+                        <div class="hero_text">
+                            <h1>Satisfacción Garantizada</h1>
+                            <h2>Te Ahorramos Tiempo Y Dinero</h2>
+                            <p>Si quieres tener tu hogar limpio y fresco sin tener que invertir tu tan preciado tiempo, Yo te LoLimpio!</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Calculation Box -->
+                    <div class="calculation_box">
+                        <h3>Cotiza gratis</h3>
+                        <div class="calculation_options">
+                            <div class="calculation_option active" data-mode="rooms">Por habitaciones</div>
+                            <div class="calculation_option" data-mode="meters">Por metros cuadrados</div>
+                        </div>
+                        <div class="calculation_input">
+                            <label id="input-label" for="calculation-input">Número de habitaciones</label>
+                            <input type="number" id="calculation-input" min="1" value="1">
+                        </div>
+                        <div class="price_display" id="calculated-price">€15.00</div>
+                        <button class="book_button" id="book-now">Reserva Ahora</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero_social">
+                <ul>
+                    <li><i class="fa-brands fa-tiktok"></i></li>
+                    <li><i class="fa-brands fa-instagram"></i></li>
+                    <li><i class="fa-brands fa-whatsapp"></i></li>
+                </ul>
+            </div> 
+        </article>
+    </section>
+    
+    <section class="servicios" id="servicios">
+        <h2>Lo que Limpio</h2>
+        <p>Básicamente limpiamos lo que sea pero para que tengas una idea:</p>
+        <article class="listado">
+            <div class="servicio" id="profunda">
+                <figure><img src="./resources/images/profunda.webp" alt="cleaning bathroom"></figure>
+                <figcaption>
+                    <h3>Limpieza Profunda</h3>
+                    <p>Limpiamos de arriba a abajo y de derecha a izquierda</p>
+                    <button><a href="#cotiza">Cotiza Gratis!</a></button>
+                </figcaption>
+            </div>
+            <div class="servicio" id="recurrente">
+                <figure><img src="./resources/images/recurrente.webp" alt="cleaning kitchen"></figure>
+                <figcaption>
+                    <h3>Limpieza Recurrente</h3>
+                    <p>Limpiamos a tu conveniencia sea: diario / semanal o mensual</p>
+                     <button><a href="#cotiza">Cotiza Gratis!</a></button>
+                </figcaption>
+            </div>
+            <div class="servicio" id="rapidito">
+                <figure><img src="./resources/images/rapidito.webp" alt="organizing living room"></figure>
+                <figcaption>
+                    <h3>Limpieza rápida</h3>
+                    <p>Viene una visita, o vuelve tu esposa y te cogió la hora?</p>
+                     <button><a href="#cotiza">Cotiza Gratis!</a></button>
+                </figcaption>
+            </div>
+        </article>
+    </section>
+    
+    <section class="nosotros">
+        <h2></h2>
+        <article>
+            <figure> </figure>
+            <figcaption>  </figcaption>
+            <p></p>
+        </article>
+    </section>
+    
+    <footer>
+        <ul>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#cotiza">Cotiza</a></li>
+            <li>Contacto</li>
+        </ul>
+    </footer>
+    <a href="https://web.whatsapp.com/send/?phone=%2B18094433249&text=Buenas%2C+me+gustaria+saber+mas+acerca+de+sus+servicios.&type=phone_number&app_absent=0&utm_campaign=wa_api_send">
+    <div class="whatsapp_link">
+        <i class="fa-brands fa-whatsapp"></i>
+    </div>
+    </a>
+    <!-- Reservation Modal -->
+    <div class="modal-overlay" id="reservation-modal">
+        <div class="reservation-modal">
+            <span class="close-modal" id="close-modal">&times;</span>
+            
+            <div id="reservation-form">
+                <h3>Reserva tu Servicio de Limpieza</h3>
+                <form id="booking-form">
+                    <div class="form-group">
+                        <label for="name">Nombre completo</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Número de teléfono</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Fecha deseada para la limpieza</label>
+                        <input type="date" id="date" name="date" required min="">
+                    </div>
+                    <div class="form-group">
+                        <label for="service-type">Tipo de servicio</label>
+                        <input type="text" id="service-type" value="Limpieza estándar" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="estimated-price">Precio estimado</label>
+                        <input type="text" id="estimated-price" readonly>
+                    </div>
+                    <button type="submit" class="submit-btn">Confirmar Reserva</button>
+                </form>
+            </div>
+            
+            <div class="confirmation-message" id="confirmation-message">
+                <i class="fas fa-check-circle"></i>
+                <h3>¡Reserva Confirmada!</h3>
+                <p>Te hemos enviado un correo con los detalles de tu reserva. Nos pondremos en contacto contigo pronto.</p>
+            </div>
+        </div>
+    </div>
+    
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const bookButton = document.getElementById("book-now");
+
+    bookButton.addEventListener("click", function () {
+      // Open Google Calendar scheduling in a popup window
+      window.open(
+        "https://calendar.google.com/calendar/appointments/schedules/AcZssZ1TT_P1zB2RVhchDehlwq0pUNXD2qDf2YO5K9OiJJwFVYR1vrelarcSXttxSLYDyLqBrsOWMoPK?gv=true",
+        "bookingWindow",
+        "width=900,height=700,top=100,left=100"
+      );
+    });
+  });
+</script>
+
+   <script>
+        // Mobile menu functionality
+        document.getElementById('mobile-menu').addEventListener('click', function() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        const navItems = document.querySelectorAll('#main-nav li');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                document.getElementById('main-nav').classList.remove('active');
+            });
+        });
+
+        // Calculation functionality
+        let calculationMode = 'rooms'; // Default mode
+        const calculationInput = document.getElementById('calculation-input');
+        const calculatedPrice = document.getElementById('calculated-price');
+        const inputLabel = document.getElementById('input-label');
+        const bookButton = document.getElementById('book-now');
+        const calculationOptions = document.querySelectorAll('.calculation_option');
+        let hasInteracted = false;
+
+        // Set up event listeners for calculation options
+        calculationOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                calculationOptions.forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to clicked option
+                this.classList.add('active');
+                
+                // Update calculation mode
+                calculationMode = this.getAttribute('data-mode');
+                
+                // Update input label and placeholder
+                if (calculationMode === 'rooms') {
+                    inputLabel.textContent = 'Número de habitaciones';
+                    calculationInput.min = 1;
+                    calculationInput.value = 1;
+                } else {
+                    inputLabel.textContent = 'Metros cuadrados';
+                    calculationInput.min = 1;
+                    calculationInput.value = 150;
+                }
+                
+                // Recalculate price
+                calculatePrice();
+            });
+        });
+
+        // Calculate price when input changes
+        calculationInput.addEventListener('input', function() {
+            hasInteracted = true;
+            calculatePrice();
+        });
+
+        function calculatePrice() {
+            const value = parseInt(calculationInput.value) || 0;
+            let price = 0;
+            
+            if (calculationMode === 'rooms') {
+                // Base price + price per room
+                price = 1500;
+                if (value > 1) price = 1500 + (value * 200);
+            } else {
+                // Price per square meter
+                price = value * 10;
+                // Minimum price
+                if (price < 1500) price = 1500;
+            }
+            
+            calculatedPrice.textContent = `$${price.toFixed(2)}`;
+            
+            // Update the estimated price in the form
+            document.getElementById('estimated-price').value = `$${price.toFixed(2)}`;
+            
+            // Make the book button pulse if user has interacted
+            if (hasInteracted && value > 0) {
+                bookButton.classList.add('pulse');
+            } else {
+                bookButton.classList.remove('pulse');
+            }
+        }
+
+        // Initialize calculation on page load
+        calculatePrice();
+
+       /* // Reservation Modal Functionality
+        const modal = document.getElementById('reservation-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const bookingForm = document.getElementById('booking-form');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const dateInput = document.getElementById('date');
+        
+        // Set minimum date to today
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        dateInput.min = `${yyyy}-${mm}-${dd}`;
+        
+        // Open modal when "Reserva Ahora" is clicked
+        bookButton.addEventListener('click', function() {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+        
+        // Close modal when X is clicked
+        closeModalBtn.addEventListener('click', function() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        });
+        
+        // Close modal when clicking outside the modal
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Re-enable scrolling
+            }
+        });
+        
+        // Handle form submission
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real application, you would send this data to a server
+            // For this example, we'll just show a confirmation message
+            
+            // Hide form and show confirmation
+            bookingForm.style.display = 'none';
+            confirmationMessage.style.display = 'block';
+            
+            // Reset form after 3 seconds and close modal
+            setTimeout(function() {
+                bookingForm.reset();
+                bookingForm.style.display = 'block';
+                confirmationMessage.style.display = 'none';
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }, 3000);
+        });*/
+    </script>
+</body>
+</html>

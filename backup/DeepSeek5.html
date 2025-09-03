@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOLimpio - Servicios de Limpieza</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e6f0ff 0%, #c5e3ff 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            color: #1a73e8;
+            margin-left: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-icon {
+            font-size: 2.8rem;
+            color: #1a73e8;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #1a73e8;
+        }
+        
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 100, 0.1);
+        }
+        
+        .hero-content {
+            flex: 1;
+            padding-right: 30px;
+        }
+        
+        .hero-content h2 {
+            font-size: 2.2rem;
+            color: #1a73e8;
+            margin-bottom: 15px;
+        }
+        
+        .hero-content h3 {
+            font-size: 1.5rem;
+            color: #3498db;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #34495e;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+        
+        .feature {
+            flex-basis: 48%;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 100, 0.08);
+        }
+        
+        .feature h3 {
+            color: #1a73e8;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .calculator {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 100, 0.08);
+            margin-bottom: 50px;
+        }
+        
+        .calculator h3 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .calculator-options {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .option-btn {
+            padding: 12px 25px;
+            margin: 0 10px;
+            background: #e8f0fe;
+            border: 2px solid #1a73e8;
+            border-radius: 8px;
+            color: #1a73e8;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-btn.active {
+            background: #1a73e8;
+            color: white;
+        }
+        
+        .calculator-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .calculator-controls {
+            flex: 1;
+            padding-right: 30px;
+        }
+        
+        .room-selector {
+            margin-bottom: 20px;
+        }
+        
+        .room-selector label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .room-selector input {
+            width: 100%;
+            height: 45px;
+        }
+        
+        .price-display {
+            text-align: center;
+            padding: 20px;
+            background: #e8f0fe;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .price-display h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            color: #1a73e8;
+            font-weight: 700;
+        }
+        
+        .calculator-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .calculator-image img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        
+        .btn-reserve {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+        
+        .btn-reserve:hover {
+            background: #1557b0;
+        }
+        
+        .testimonials {
+            margin-bottom: 50px;
+        }
+        
+        .testimonials h3 {
+            color: #1a73e8;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .testimonial-cards {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .testimonial-card {
+            flex-basis: 31%;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 100, 0.08);
+        }
+        
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+        
+        .testimonial-card .client {
+            font-weight: 600;
+            color: #1a73e8;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #2c3e50;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 100, 0.08);
+        }
+        
+        @media (max-width: 768px) {
+            .hero, .features, .calculator-content, .testimonial-cards {
+                flex-direction: column;
+            }
+            
+            .hero-content, .feature, .testimonial-card {
+                margin-bottom: 30px;
+            }
+            
+            .calculator-options {
+                flex-direction: column;
+            }
+            
+            .option-btn {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-broom logo-icon"></i>
+                <h1>LOLimpio</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Servicios</a></li>
+                    <li><a href="#">Precios</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Satisfacción Garantizada</h2>
+                <h3>Te Ahorramos Tiempo Y Dinero</h3>
+                <p>Si quieres tener tu hogar limpio y fresco sin tener que invertir tu tan preciado tiempo, ¡Yo te LoLimpio!</p>
+                <button class="btn-reserve">Cotiza gratis</button>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Equipo de limpieza profesional">
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h3>Por habitaciones</h3>
+                <p>Selecciona el número de habitaciones que necesitas limpiar y obtén un precio instantáneo. Perfecto para limpiezas regulares.</p>
+            </div>
+            <div class="feature">
+                <h3>Por metros cuadrados</h3>
+                <p>Calcula el precio basado en los metros cuadrados de tu hogar. Ideal para limpiezas profundas o espacios abiertos.</p>
+            </div>
+        </section>
+
+        <section class="calculator">
+            <h3>Calcula tu precio</h3>
+            <div class="calculator-options">
+                <button class="option-btn active">Por habitaciones</button>
+                <button class="option-btn">Por metros cuadrados</button>
+            </div>
+            
+            <div class="calculator-content">
+                <div class="calculator-controls">
+                    <div class="room-selector">
+                        <label for="rooms">Número de habitaciones</label>
+                        <input type="range" id="rooms" min="1" max="10" value="1">
+                        <span id="room-count">1</span>
+                    </div>
+                    
+                    <div class="price-display">
+                        <h4>Precio estimado</h4>
+                        <div class="price">€1500.00</div>
+                    </div>
+                    
+                    <button class="btn-reserve">Reserva Ahora</button>
+                </div>
+                
+                <div class="calculator-image">
+                    <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80" alt="Casa limpia con diseño moderno">
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h3>Lo que dicen nuestros clientes</h3>
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <p>"¡Increíble servicio! Mi casa nunca había estado tan limpia. El equipo fue puntual y muy profesional."</p>
+                    <div class="client">- María López</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Ahorro tiempo y dinero con LOLimpio. La calidad del servicio es excelente y los precios muy justos."</p>
+                    <div class="client">- Javier Martínez</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Recomiendo LOLimpio al 100%. Ahora puedo disfrutar de mi tiempo libre mientras ellos dejan mi casa impecable."</p>
+                    <div class="client">- Ana Rodríguez</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2023 LOLimpio - Servicios de Limpieza Profesional. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple JavaScript for room selection
+        const roomSlider = document.getElementById('rooms');
+        const roomCount = document.getElementById('room-count');
+        const priceDisplay = document.querySelector('.price');
+        
+        roomSlider.addEventListener('input', function() {
+            roomCount.textContent = this.value;
+            const price = 1500 * this.value;
+            priceDisplay.textContent = `€${price.toFixed(2)}`;
+        });
+        
+        // Option buttons functionality
+        const optionButtons = document.querySelectorAll('.option-btn');
+        optionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                optionButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
